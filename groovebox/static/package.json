@@ -1,0 +1,33 @@
+{
+  "name": "groovebox",
+  "version": "0.0.1",
+  "description": "Spotify clone for the Internet Archive's Music Library",
+  "main": "build/scripts/groovebox.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mekarpeles/groovebox.org"
+  },
+  "keywords": [
+    "spotify",
+    "music",
+    "archive.org"
+  ],
+  "author": "Mek Karpeles <michael.karpeles@gmail.com>",
+  "license": "Apache 2.0",
+  "bugs": {
+    "url": "https://github.com/mekarpeles/groovebox.org/issues"
+  },
+  "homepage": "https://github.com/mekarpeles/groovebox.org",
+  "dependencies": {
+    "brfs": "^1.4.0",
+    "browserify": "^11.0.0",
+    "fs": "0.0.2",
+    "gulp": "^3.9.0",
+    "gulp-if": "^1.2.5",
+    "gulp-sass": "^2.0.4",
+    "gulp-util": "^3.0.6"
+  }
+}

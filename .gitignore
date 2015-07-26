@@ -1,3 +1,15 @@
+.#*
+*#
+*~
+*.pyc
+*.cfg
+*.ini
+*.sock
+groovebox.egg-info
+node_modules
+settings.json
+build
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

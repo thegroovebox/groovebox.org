@@ -1,0 +1,14 @@
+<h1>Archive.org Submitter</h1>
+<p>Is there a concert or album on Archive.org you want to play in
+groovebox but it is not listed*?></p>
+
+<form method="POST" action="/api/concerts">
+  <p>Can't find an artist? <a href="/submit/artists">Add one</a></p>
+  <div>
+    <label for="url">Archive.org url</label>
+    <input type="text"/ name="url" placeholder="Archive.org url (e.g. https://archive.org/details/eits2012-04-18.aud)">
+    <input type="submit"/>
+  </div>
+</form>
+
+<p>* Some concerts could not be imported because there were errors with the data</p>

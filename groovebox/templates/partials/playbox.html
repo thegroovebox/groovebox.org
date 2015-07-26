@@ -1,0 +1,41 @@
+        <div id="playbox">
+          <div id="results-toggler">
+            <span class="expand-arrow"><i class="fa fa-chevron-left"></i></span>
+          </div>
+          <div id="nowplaying">
+            <div class="album-cover">
+              <img src="https://ia600606.us.archive.org/19/items/internetarchivebooks/archive-logo-300.png"/>
+            </div>
+            <div class="song-details">
+              <h2 class="song-title">Groovebox</h2>
+              <h3 class="song-artist">Get in the groove!</h3>
+            </div>
+            <div class="audio-controls">
+              <audio controls id="audio-player" onended="nextSong()">
+                <source src="" />
+                <!--<source src="https:/shakedownst2010-12-22d1t06.ogg" type="audio/ogg" />-->
+                
+                <em>Sorry, your browser doesn't support HTML5 audio.</em>
+              </audio>
+            </div>
+          </div>
+          <div id="history">
+            <h1>Queue</h1>
+            <div id="queue-controls">              
+              <button class="fakebutton" onclick="queueExport()" title="Export Queue">
+                <i class="fa fa-clipboard"></i>
+              </button>
+              <button class="fakebutton" title="Start Over">
+                <i class="fa fa-recycle"></i>
+              </button>
+              <button class="fakebutton" onclick="toggleRepeat()" title="Play song on repeat">
+                <i class="fa fa-repeat"></i>
+              </button>
+              <button class="fakebutton" onclick="queueClear()" title="Clear queue">
+                <i class="fa fa-eraser"></i>
+              </button>
+            </div>
+            <ul class="queue">
+            </ul>
+          </div>
+        </div>
