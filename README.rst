@@ -1,8 +1,8 @@
 groovebox
 =========
 
-.. image:: https://travis-ci.org/mekarpeles/groovebox.org.svg
-    :target: https://travis-ci.org/mekarpeles/groovebox.org
+.. image:: https://travis-ci.org/thegroovebox/groovebox.org.svg
+    :target: https://travis-ci.org/thegroovebox/groovebox.org
 
 A spotify-like media player for the Internet Archive's collection of live music.
 
