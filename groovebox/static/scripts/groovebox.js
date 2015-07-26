@@ -34,7 +34,7 @@ var getGenreArtists, getArtist, getAlbum, getConcert, getSong, getTrack;
 
 (function () {
   'use strict';  
-  var apiurl = "https://api.groovebox.org/api";
+  var apiurl = "https://api.groovebox.org";
   var baseurl = "https://archive.org/download/";
   var defaultCoverArt = "https://ia600606.us.archive.org/19/items/internetarchivebooks/archive-logo-300.png";
   var extractTrack = function($this) {
