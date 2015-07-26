@@ -9,8 +9,7 @@
     :license: see LICENSE for more details.
 """
 
-from werkzeug import wrappers
-from flask import render_template, Response
+from flask import render_template
 from flask.views import MethodView
 
 

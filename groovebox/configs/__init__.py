@@ -4,14 +4,13 @@
 """
     __init__.py
     ~~~~~~~~~~~
-    
+    Configurations for groovebox-client
 
     :copyright: (c) 2015 by Mek Karpeles
     :license: see LICENSE for more details.
 """
 
 import os
-import sys
 import types
 import configparser
 
@@ -24,11 +23,13 @@ __author__ = [
 path = os.path.dirname(os.path.realpath(__file__))
 approot = os.path.abspath(os.path.join(path, os.pardir))
 
+
 def getdef(self, section, option, default_value):
     try:
         return self.get(section, option)
     except:
         return default_value
+
 
 config = configparser.ConfigParser()
 config.read('%s/settings.cfg' % path)
