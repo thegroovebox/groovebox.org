@@ -208,6 +208,7 @@ a:hover {
 }
 
 #searchbox.open {
+    box-shadow: 2px 0px 11px #09090A;
     transition: all 0.5s ease;
     transform: translateX(0px);
 }
