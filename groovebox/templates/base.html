@@ -2,37 +2,42 @@
 <!doctype html>
 <html class="no-js" lang="">
     <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Groovebox</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta content="Groovebox lets you listen to millions of live concert songs for free." name="description">
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-        <link href='http://fonts.googleapis.com/css?family=Righteous|Muli:300|Gudea' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" type="text/css" href="/static/build/css/groovebox.css"/>
+        <base href="/">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>Groovebox</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta content="Groovebox lets you listen to millions of live concert songs for free." name="description">
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+	<link href='http://fonts.googleapis.com/css?family=Righteous|Muli:300|Gudea' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="/static/build/css/groovebox.css"/>
     </head>
     <body>
         <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
+	<!-- <script src="static/build/scripts/groovebox.js"></script>-->
         <!-- Add your site or application content here -->
         {% include "partials/sidebox.html" %}
 
-        <div id="groovebox">
+        <div id="groovebox" ui:view>
           {% include template %}
           <div id="blur-results" class="groovy-blur"></div>
-          {% include "partials/results.html" %}
+          {% include "partials/results/concert.html" %}
           <div id="blur-search" class="groovy-blur"></div>
           {% include "partials/search.html" %}
         </div>
         {% include "partials/playbox.html" %}
 
+        <script type="text/javascript" src="/static/scripts/utils.js"></script>
+        <script type="text/javascript" src="/static/scripts/groovebox-rest.js"></script>
+        <script type="text/javascript" src="/static/scripts/groovebox-player.js"></script>
         <script type="text/javascript" src="/static/scripts/groovebox.js"></script>
-        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+        <script type="text/javascript" src="/static/scripts/groovebox-artists.js"></script>
+
         <script>
             (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
             function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;

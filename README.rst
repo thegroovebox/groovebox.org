@@ -34,6 +34,7 @@ The following instructions assume Ubuntu or Debian hosts:
     $ cd api.groovebox.org
     $ pip3 install -e .
     $ cd groovebox/static
+    $ gem install neat sass bourbon
     $ npm install .
     $ npm styles # rebuild sass -> css
     $ python3.4 app.py # run the app
