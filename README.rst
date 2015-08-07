@@ -33,6 +33,7 @@ The following instructions assume Ubuntu or Debian hosts:
     $ cd groovebox.org/
     $ pip3 install -e .
     $ cd groovebox/static
+    $ gem install neat sass bourbon
     $ npm install .
     $ ./node_modules/.bin/gulp styles # rebuild sass -> css
     $ cd ..

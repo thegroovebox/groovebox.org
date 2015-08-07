@@ -1,3 +1,6 @@
+@import "bourbon/bourbon";
+@import "neat/neat";
+
 /* Palette URL: http://paletton.com/#uid=13Y0u0kqg4T2TrUh29Wsvc3p4l7 */
 
 /* As hex codes */
@@ -109,6 +112,73 @@ a:hover {
     right: 250px;
     padding: 20px;
     overflow-y: scroll;
+
+    hr {
+	border: none;
+	background-color: #1E1F37;
+	height: 1px;
+	margin-bottom: 15px;
+    }
+    h2 {
+	word-spacing: 5px;
+	margin: 15px 0px 0px 0px;
+	font-size: .9em;
+	font-weight: normal;
+	text-transform: uppercase;
+    }
+
+    section {
+	&.cards {
+            @include outer-container;
+
+            font-size: .9em;
+	    margin-bottom: 30px;
+
+            card {
+		@include span-columns(2.4);
+		@include omega(5n);
+		margin-bottom: 20px;
+		background-color: #1E1F37;
+		.album-cover {
+		    height: 177px;
+		    img {
+			height: 177px;
+		    }
+		    .label {    
+			position: relative;
+			top: -123px;
+			color: #fff;
+			text-align: center;
+			font-size: 1.3em;
+		    }
+		}
+	    }
+
+            .album-details {
+		margin: 0px;
+		padding: 0px 10px;
+		
+		h2 {
+		    text-transform: capitalize;
+		    white-space: nowrap;
+		    overflow: hidden;
+		    font-size: .9em;
+		    font-weight: normal;    
+		    text-overflow: ellipsis;
+		    white-space: nowrap;
+		}
+		
+		h3 {
+		    font-size: .8em;
+		    font-weight: normal;
+		    white-space: nowrap;
+		    overflow: hidden;
+		    text-overflow: ellipsis;
+		    white-space: nowrap;
+		}
+	    }
+	}
+    }
 }
 
 #groovebox::-webkit-scrollbar { width: .5em; background-color: #1E1F37;}
@@ -165,8 +235,17 @@ a:hover {
     overflow-y: scroll;
     position: absolute;
     top: 85px;
+    padding-top: 15px;
     bottom: 0px;
     width: 100%;
+}
+
+#searchbox-results section span {
+    margin-left: 15px;
+    padding-bottom: 0px;
+    font-size: .8em;
+    text-transform: uppercase;
+    color: #6265A0;
 }
 
 #searchbox-results h2 {
@@ -180,6 +259,7 @@ a:hover {
 #searchbox-results ul {
     list-style-type: none;
     padding: 0px 15px;
+    margin-top: 5px;    
 }
 
 #searchbox-results::-webkit-scrollbar { width: .5em; background-color: #141424;}
@@ -223,34 +303,33 @@ a:hover {
     left: 300px;
     top: 0px;
     bottom: 0px;
-    padding: 20px;
     background-color: #121224;
     border-left: 1px solid rgba(46, 37, 84, 1);
-/*    background-color: #353652; 
-    border-left: 1px solid rgba(90, 88, 98, 1); */
     box-shadow: -5px 0px 10px rgb(24, 25, 31);
     overflow-y: scroll;
     transform: translateX(110%);
     transition: all 0.5s ease-out;
-}
 
-#resultsbox.open {
-    transition: all 0.5s ease;
-    transform: translateX(0px);
-}
+    header {
+      padding: 20px;
+      span {
+          color: #73769D;
+	  display: block;
+	  font-size: .8em;
+	  text-transform: uppercase;
+	  margin-left: 4px;
+      }
+    }
 
+    &.open {
+      transition: all 0.5s ease;
+      transform: translateX(0px);
+    }
+}
 
 #resultsbox::-webkit-scrollbar { width: .5em; background-color: #1E1F37;}
 #resultsbox::-webkit-scrollbar-thumb {
     height: 20px; background-color: rgb(74, 75, 97); border-radius: 5px;
-}
-
-#resultsbox header span {
-    color: #73769D;
-    display: block;
-    font-size: .8em;
-    text-transform: uppercase;
-    margin-left: 4px;
 }
 
 #resultsbox header h1 {
@@ -282,6 +361,7 @@ a:hover {
 }
 
 #resultsbox table {
+    padding: 0px 20px;
     margin-top: 20px;
     width: 100%;
     border-spacing: 0px;
@@ -461,11 +541,10 @@ ul.queue::-webkit-scrollbar-thumb {
 
 .album-cover {
     background-color: #04040D;
-    height: 182px;
 }
 
 #nowplaying .album-cover {
-    margin-bottom: 35px;
+    margin-bottom: 5px;
 }
 
 .album-cover:hover {
@@ -507,82 +586,6 @@ ul.queue::-webkit-scrollbar-thumb {
     width: 210px;
 }
 
-.section {
-    min-width: 969px;
-    font-size: .9em;
-    margin-bottom: 30px;
-}
-
-.section hr {
-    border: none;
-    background-color: #1E1F37;
-    height: 1px;
-    margin-bottom: 15px;
-}
-.section h2 {
-    word-spacing: 5px;
-    margin: 15px 0px 0px 0px;
-    font-size: .9em;
-    font-weight: normal;
-    text-transform: uppercase;
-}
-
-.section ul.albums {
-    list-style-type: none;
-    margin: 0px;
-    padding: 0px;
-}
-
-.section ul.albums li {
-    box-sizing: border-box;
-    display: inline-block;
-    width: 182px;
-    height: 275px;
-    background-color: #1E1F37;
-    margin-right: 15px;
-}
-
-.section ul.moods {
-    margin-bottom: -25px;
-}
-
-.section ul.moods li {
-    height: 182px;
-}
-
-ul.albums li:last-child {
-    margin-right: 0px;
-}
-
-.section ul.albums li a img {
-    width: 100%;
-    height: 182px;
-}
-
-.section .albums li.album .album-details {
-    margin: 0px;
-    padding: 0px 10px;
-}
-
-.section .albums li.album .album-details h2 {
-    text-transform: capitalize;
-    white-space: nowrap;
-    overflow: hidden;
-    width: 170px;
-    font-size: .9em;
-    font-weight: normal;    
-    text-overflow: ellipsis;
-    white-space: nowrap;
-} 
-
-.section .albums li.album .album-details h3 {
-    font-size: .8em;
-    font-weight: normal;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    width: 170px;
-}
-
 textarea:focus, input:focus {
     outline: none;
     background-color: #fff;
@@ -617,12 +620,4 @@ textarea:focus, input:focus {
 .low-filter:hover {
     opacity: .5;
     transition: opacity .25s ease-in-out;
-}
-
-.genre {    
-    position: relative;
-    top: -130px;
-    color: #fff;
-    text-align: center;
-    font-size: 1.3em;
 }

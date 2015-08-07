@@ -1,139 +1,9 @@
-var getJsonFromUrl = function () {
-  var query = location.search.substr(1);
-  var result = {};
-  query.split("&").forEach(function(part) {
-    var item = part.split("=");
-    result[item[0]] = decodeURIComponent(item[1]);
-  });
-  return result;
-}
 
-var debounce = function (func, threshold, execAsap) {
-  var timeout;
 
-  return function debounced () {
-    var obj = this, args = arguments;
-    function delayed () {
-      if (!execAsap)
-        func.apply(obj, args);
-      timeout = null;
-    };
-
-    if (timeout)
-      clearTimeout(timeout);
-    else if (execAsap)
-      func.apply(obj, args);
-
-    timeout = setTimeout(delayed, threshold || 100);
-  };
-}
-
-var playSong, stopSong, nextSong, songStopped, toggleRepeat;
-var queueSong, queueExport, queueClear;
-var getGenreArtists, getArtist, getAlbum, getConcert, getSong, getTrack;
 
 (function () {
   'use strict';  
-  var apiurl = "https://api.groovebox.org";
-  var baseurl = "https://archive.org/download/";
   var defaultCoverArt = "https://ia600606.us.archive.org/19/items/internetarchivebooks/archive-logo-300.png";
-  var extractTrack = function($this) {
-    return {
-      artist: $this.attr('artist'),
-      aid: $this.attr('aid'),
-      concert: $this.attr('concert'),
-      song: $this.attr('song'),      
-      title: $this.attr('title'),
-      sid: $this.attr('sid')
-    }
-  };
-
-  toggleRepeat = function() { queue.repeat = !queue.repeat; }
-  var setPosition = function(pos) {
-    queue.pos = pos
-    $('#playbox #history ul.queue li.selected').removeClass('selected');
-    $('#playbox #history ul.queue li').eq(queue.pos).addClass('selected');
-  }
-  var queue = {
-    pos: 0, // the index of the queue
-    pop: true, // remove after playing
-    repeat: false,
-    shuffle: false,
-    startover: false,
-    length: function() { return $('#playbox #history ul.queue li').length },
-    select: setPosition
-  };
-
-  /* Returns the track at index within the play queue */
-  var getQueueSong = function(index) {
-    var $this = $('#playbox #history ul.queue li').eq(index);
-    return extractTrack($this);
-  }
-
-  songStopped = function() {
-    return $('#audio-player')[0].paused;
-  }
-
-  nextSong = function() {
-    if (queue.repeat) {
-      playSong(getQueueSong(queue.pos));
-    }
-    queue.select((queue.pos + 1) % queue.length());
-    if (queue.pos > 0 || (queue.pos === 0 && queue.startover)) {
-      playSong(getQueueSong(queue.pos));
-    } else {
-      $('#playbox #history ul.queue li.selected').removeClass('selected');
-    }
-  }
-
-  queueSong = function(track) {
-    $('#playbox #history ul.queue').append(
-      '<li artist="' + track.artist + '" concert="' + track.concert
-        + '" song="' + track.song +'" title="' + track.title 
-        + '" sid="' + track.sid + '" aid="' + track.artist.tag + '">'
-        + '<span class="track-play">' + track.title + '</span>'
-        + '<span class="track-remove"><i class="fa fa-times-circle"></i></span>'
-        + '<span class="track-remove"><i class="fa fa-times-circle"></i></span>'
-        + '<div class="track-artist"><span>' + track.artist +  '</span></div>'
-        + '</li>'
-    );
-    return queue.length()-1;
-  }
-
-  queueExport = function (){
-    var sids = [];
-    $('#playbox #history ul.queue li').each(function(){
-      sids.push($(this).attr('sid'));
-    });
-    prompt("Here's a link to your groovebox playlist!",
-           window.location.hostname + "?queue=" + sids.join());
-  }
-
-  queueClear = function() {
-    stopSong();
-    queue.pos = 0;
-    $('#playbox #history ul.queue li.selected').removeClass('selected');
-    $('#playbox #history ul.queue').empty();
-  }
-
-  playSong = function(track) {
-    //XXX use /api to get metadata coverart -- open issue    
-    var src = $('#resultsbox .coverart img').attr('src');
-    var url = baseurl + track.concert + "/" + track.song;
-    $('#nowplaying .album-cover img').attr("src", src);
-    $('#nowplaying .song-title').text(track.title);
-    $('#nowplaying .song-artist').text(track.artist);
-    $('#audio-player source').attr("src", url);
-    $('#audio-player')[0].pause();
-    $('#audio-player')[0].load();
-    $('#audio-player')[0].play();
-  }
-
-  stopSong = function() {
-    $('#audio-player')[0].pause();
-    $('#audio-player source').attr("src", "");    
-    $('#audio-player')[0].load();
-  }
 
   var toggleSearchbox = function() {
     $('#blur-search').fadeToggle(500);
@@ -169,76 +39,9 @@ var getGenreArtists, getArtist, getAlbum, getConcert, getSong, getTrack;
       .toFixed(2).toString().replace('.', ':');
   }
 
-  var search = function(query, callback) {
-    var url = apiurl + '/search?q=' + query;
-    $.get(url, function(results) {
-    }).done(function(data) {
-      if (callback) { callback(data); }
-    });
-  }
-
-  getGenreArtists = function(artist, callback) {
-    var url = apiurl + '/genres/' + genres + '?artists=1';
-    $.get(url, function(results) {
-    }).done(function(data) {
-      if (callback) { callback(data); }
-    });    
-  }
-
-  getArtist = function(artist, callback) {
-    var url = apiurl + '/artists/' + artist;
-    $.get(url, function(results) {
-    }).done(function(data) {
-      if (callback) { callback(data); }
-    });    
-  }
-
-  getAlbum = function(artist, callback) {
-    var url = apiurl + '/artists/' + artist + '/albums/' + concert;
-    $.get(url, function(results) {
-    }).done(function(data) {
-      if (callback) { callback(data); }
-    });
-  }
-
-  getConcert = function(artist, concert, callback) {
-    var url = apiurl + '/artists/' + artist + '/concerts/' + concert;
-    $.get(url, function(results) {
-    }).done(function(data) {
-      if (callback) { callback(data); }
-    });
-  }
-
-  getTrack = function(track_id, callback) {
-    var url = apiurl + '/tracks/' + track_id;
-    $.get(url, function(results) {
-    }).done(function(data) {
-      if (callback) { callback(data); }
-    });
-  }
-
-  var populateSearchMatches = function(results, callback) {
-    $("#searchbox-results ul").empty();
-    var artists = results.artists;
-    var tracks = results.tracks;
-    for (var t in tracks) {
-      var track = tracks[t];
-      $('#searchbox-results ul').append(
-        '<li artist="' + track.artist.name + '" concert="' + track.item_id
-          + '" song="' + track.file_id +'" title="' + track.name
-          + '" sid="' + track.id + '" aid="' + track.artist.tag + '">'
-          + '<h2 class="result-track">' + track.name + '</h2>'
-          + '<h3 class="result-artist">' + track.artist.name + '</h3>'
-          + '</li>'
-      );
-    }
-    if (callback) { callback(); }
-  }
-
-  var populateResultsTable = function(item, callback) {
+  var populateConcertResults = function(item) {
     var coverArt = item.metadata && item.metadata.coverArt ?
       item.metadata.coverArt : defaultCoverArt;
-    $("#resultsbox table tbody").empty();
     $("#resultsbox header h1").text(item.artist);
     $("#resultsbox header h2").text(item.name);
     $("#resultsbox .coverart img").attr('src', coverArt);
@@ -256,6 +59,32 @@ var getGenreArtists, getArtist, getAlbum, getConcert, getSong, getTrack;
           + '</tr>'
       );
     }
+  }
+
+  var populateArtistResults = function(artist) {
+    $("#resultsbox header h1").text(artist.name);
+    $("#resultsbox header h2").text('');
+    for (var s in artist.songs) {
+      var song = artist.songs[s];
+      $('#resultsbox table tbody').append(
+        '<tr artist="' + artist.name +'" title="' + song.name
+          + '" sid="' + song.id + '" aid="' + artist.tag + '">'
+          +'<td class="playable"></td>'
+          +'<td class="playable">' + song.name + '</td>'
+          +'<td class="playable"></td>'
+          +'<td class="track-queue"><i class="fa fa-plus-circle"></i></td>'
+          + '</tr>'
+      );
+    }
+  }
+
+  var populateResultsTable = function(item, callback) {
+    $("#resultsbox table tbody").empty();
+    if (item.songs) {
+      populateArtistResults(item);
+    } else {
+      populateConcertResults(item);
+    }
 
     if (!$('#resultsbox').hasClass('open')) {
       toggleResultsbox();
@@ -263,13 +92,6 @@ var getGenreArtists, getArtist, getAlbum, getConcert, getSong, getTrack;
     if (callback) { callback(); }
   }
 
-  // On search typing
-  $('#searchbox-header form').submit(function(event) { event.preventDefault(); });
-  $('#searchbox-header form').keyup(debounce(function(event) {
-    search($('#search-query').val(), function(results) {
-      populateSearchMatches(results);
-    });
-  }, 200, false));
 
   $('#blur-search').click(function() {
     if($('#searchbox').hasClass('open')) {
@@ -290,7 +112,7 @@ var getGenreArtists, getArtist, getAlbum, getConcert, getSong, getTrack;
   /* Queue and immediately play track from track results */
   $('#resultsbox').on('click', 'tr td.playable', function() {
     var $this = $(this).closest('tr');
-    var track = extractTrack($this);
+    var track = Track.extract($this);
     queue.select(queueSong(track));
     playSong(track);
   });
@@ -299,7 +121,7 @@ var getGenreArtists, getArtist, getAlbum, getConcert, getSong, getTrack;
   $('#resultsbox table thead').on('click', 'th.play-all', function() {    
     var pos = queue.length();
     $('#resultsbox table tbody tr').each(function() {
-      queueSong(extractTrack($(this)));
+      queueSong(Track.extract($(this)));
     }).promise().done(function() {
       if(songStopped()) {
         var index = pos ? pos + 1 : pos;
@@ -314,7 +136,7 @@ var getGenreArtists, getArtist, getAlbum, getConcert, getSong, getTrack;
     .on('click', 'li', function() {
       var $this = $(this).closest('li');
       queue.select($this.index('#playbox #history ul.queue li'));
-      playSong(extractTrack($this));
+      playSong(Track.extract($this));
     });
 
   /* dequeue song*/
@@ -340,17 +162,119 @@ var getGenreArtists, getArtist, getAlbum, getConcert, getSong, getTrack;
   /* If track '+' clicked in resultsbox, add to queue */
   $('#resultsbox table tbody').on('click', 'tr td.track-queue', function() {
     var $this = $(this).closest('tr');
-    queueSong(extractTrack($this));
+    queueSong(Track.extract($this));
   });
 
-  /* If search result is clicked, play song and/or load concert tracks in resultsbox */
-  $('#searchbox-results ul').on('click', 'li', function() {
+  /* If ALBUM search result is clicked, load song list in resultsbox
+  $('#searchbox-results').on('click', 'section.album ul li', function() {
     var $this = $(this);
     setTimeout(function () {
-      var track = extractTrack($this);
-      var artist = $this.attr('aid');
-      var concert = $this.attr('concert');
-      getConcert(artist, concert, function(results) {
+      var album = new Album($this.attr('aid'));
+      album.songs(function(results) {
+	toggleSearchbox();
+	populateResultsTable(results, function() {
+	  
+	});
+      });
+    });
+  });
+  */
+
+  var populateSearchMatches = function(results, callback) {
+    $("#searchbox-results").empty();
+    var entities = ['tracks', 'artists', 'albums', 'songs'];
+    var artists = results.artists;
+    var tracks = results.tracks;
+    var songs = results.songs;
+    var albums = results.albums;
+
+    // Create list if results of this entity type
+    for (var e in entities) {
+      var entity = entities[e];
+      if (results[entity] && results[entity].length) {
+	$('#searchbox-results').append(
+	  '<section class="' + entity + '"><span>' + entity.capitalize()
+	    + '</span><ul></ul></section>'
+	);
+      }
+    }
+
+    // populate search results for tracks
+    for (var t in tracks) {
+      var track = tracks[t];
+      $('#searchbox-results section.tracks ul').append(
+        '<li artist="' + track.artist.name + '" concert="' + track.item_id
+          + '" song="' + track.file_id +'" title="' + track.name
+          + '" sid="' + track.id + '" aid="' + track.artist.tag 
+	  + '" title="' + track.name + '">'
+          + '<h2 class="result-track">' + track.name + '</h2>'
+          + '<h3 class="result-artist">' + track.artist.name + '</h3>'
+          + '</li>'
+      );
+    }
+
+    // populate search results for artists
+    for (var a in artists) {
+      var artist = artists[a];
+      $('#searchbox-results section.artists ul').append(
+        '<li artist="' + artist.name + '" aid="' + artist.tag 
+	  + '" title="' + artist.name + '">'
+          + '<h2 class="result-artist">' + artist.name + '</h2>'
+          + '</li>'
+      );
+    }
+
+    // populate search results for albums
+    for (var a in albums) {
+      var album = albums[a];
+      $('#searchbox-results section.albums ul').append(
+        '<li artist="' + album.artist.name + '" aid="' + album.artist.tag
+	  + '" album_id="' + album.id + '" album_name="' + album.name
+	  + '" title="' + album.name + '">'
+          + '<h2 class="result-track">' + album.name + '</h2>'
+          + '<h3 class="result-artist">' + album.artist.name + '</h3>'
+          + '</li>'
+      );
+    }
+
+    // populate search results for songs
+    for (var s in songs) {
+      var song = songs[s];
+      $('#searchbox-results section.songs ul').append(
+        '<li artist="' + song.artist.name + '" sid="' + song.id
+	  + '" aid="' + song.artist.tag + '" title="' + song.name
+	  + '">'
+          + '<h2 class="result-track">' + song.name + '</h2>'
+          + '<h3 class="result-artist">' + song.artist.name + '</h3>'
+          + '</li>'
+      );
+    }
+    if (callback) { callback(); }
+  }
+
+  /* If ARTIST search result is clicked, load song list in resultsbox */
+  $('#searchbox-results').on('click', 'section.artists ul li', function() {
+    var $this = $(this);
+    setTimeout(function () {
+      var artist = new Artist($this.attr('aid'));
+      artist.get(function(band) {
+	artist.songs(function(songs) {
+	  band.songs = songs;
+	  toggleSearchbox();
+	  populateResultsTable(band, function() {
+	  });
+	});
+      });
+    });
+  });
+
+  /* If TRACK search result is clicked, load concert tracks in resultsbox */
+  $('#searchbox-results').on('click', 'section.tracks ul li', function() {
+    var $this = $(this);
+    setTimeout(function () {
+      var track = Track.extract($this);
+      var concert = new Concert($this.attr('concert'));
+      concert.get(function(results) {
         toggleSearchbox();
         populateResultsTable(results, function() {
           var sel = '#resultsbox table tbody tr[sid=' + track.sid + ']';
@@ -362,13 +286,52 @@ var getGenreArtists, getArtist, getAlbum, getConcert, getSong, getTrack;
     }, 300);
   });
 
+  /* If ALBUM search result is clicked, load song list in resultsbox */
+  $('#searchbox-results').on('click', 'section.albums ul li', function() {
+    var $this = $(this);
+    setTimeout(function () {
+      var album = new Artist($this.attr('album_id'));
+      artist.get(function(band) {
+	artist.songs(function(songs) {
+	  band.songs = songs;
+	  toggleSearchbox();
+	  populateResultsTable(band, function() {
+	  });
+	});
+      });
+    });
+  });
+
+  /* If SONG search result is clicked, load tracks in resultsbox */
+  $('#searchbox-results').on('click', 'section.songs ul li', function() {
+    var $this = $(this);
+    setTimeout(function () {
+      var song = new Song($this.attr('sid'));
+      song.tracks(function(tracks) {
+	toggleSearchbox();
+	populateResultsTable(band, function() {
+	});
+      });
+    });
+  });
+
+  // On search typing
+  $('#searchbox-header form').submit(function(event) {
+    // bring up more comprehensive results in resultsbox
+    event.preventDefault();
+  });
+  $('#searchbox-header form').keyup(debounce(function(event) {
+    search($('#search-query').val(), function(results) {
+      populateSearchMatches(results);
+    });
+  }, 200, false));
+
   /* If album cover is clicked, load its tracks in resultsbox */
   $('.album-cover').on('click', 'button', function() {    
     var $this = $(this);
     setTimeout(function () {
-      var artist = $this.attr('artist');
-      var concert = $this.attr('concert');
-      getConcert(artist, concert, function(results) {
+      var concert = new Concert($this.attr('concert'));
+      concert.get(function(results) {
         populateResultsTable(results);
       });
     }, 300);
@@ -385,7 +348,8 @@ var getGenreArtists, getArtist, getAlbum, getConcert, getSong, getTrack;
     var idx = 0;
     for (var sid in options.queue) {      
       // XXX fix song miss-ordering caused by .get
-      getTrack(options.queue[sid], function(track) {
+      var t = new Track(options.queue[sid]);
+      t.get(function(track) {
         var song = {
           artist: track.artist.name,
           aid: track.artist.tag,
