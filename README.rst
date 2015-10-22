@@ -30,11 +30,12 @@ The following instructions assume Ubuntu or Debian hosts:
 .. code:: bash
 
     $ aptitude install postgresql-9.4
-    $ git clone https://github.com/mekarpeles/api.groovebox.org.git
-    $ cd api.groovebox.org
+    $ git clone https://github.com/thegroovebox/groovebox.org.git
+    $ cd groovebox.org/
     $ pip3 install -e .
     $ cd groovebox/static
     $ npm install .
     $ npm styles # rebuild sass -> css
+    $ cd ..
     $ python3.4 app.py # run the app
 
