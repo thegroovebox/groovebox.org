@@ -29,7 +29,6 @@ The following instructions assume Ubuntu or Debian hosts:
 
 .. code:: bash
 
-    $ aptitude install postgresql-9.4
     $ git clone https://github.com/thegroovebox/groovebox.org.git
     $ cd groovebox.org/
     $ pip3 install -e .
