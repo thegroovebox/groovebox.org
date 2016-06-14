@@ -35,7 +35,7 @@ The following instructions assume Ubuntu or Debian hosts:
     $ pip3 install -e .
     $ cd groovebox/static
     $ npm install .
-    $ npm styles # rebuild sass -> css
+    $ ./node_modules/.bin/gulp styles # rebuild sass -> css
     $ cd ..
     $ python3.4 app.py # run the app
 
