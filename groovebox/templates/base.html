@@ -10,9 +10,16 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta content="Groovebox lets you listen to millions of live concert songs for free." name="description">
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-	<link href='//fonts.googleapis.com/css?family=Righteous|Muli:300|Gudea' rel='stylesheet' type='text/css'>
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="
+stylesheet">
+        <link href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Poiret+One' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" href="/static/build/css/groovebox.css"/>
+        <!--
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
+        -->
     </head>
     <body>
         <!--[if lt IE 8]>
@@ -23,20 +30,48 @@
         <!-- Add your site or application content here -->
         {% include "partials/sidebox.html" %}
 
-        <div id="groovebox" ui:view>
+        <div id="groovebox">
           {% include template %}
           <div id="blur-results" class="groovy-blur"></div>
-          {% include "partials/results/concert.html" %}
+          {% include "partials/results.html" %}
           <div id="blur-search" class="groovy-blur"></div>
           {% include "partials/search.html" %}
         </div>
         {% include "partials/playbox.html" %}
 
-        <script type="text/javascript" src="/static/scripts/utils.js"></script>
         <script type="text/javascript" src="/static/scripts/groovebox-rest.js"></script>
         <script type="text/javascript" src="/static/scripts/groovebox-player.js"></script>
         <script type="text/javascript" src="/static/scripts/groovebox.js"></script>
         <script type="text/javascript" src="/static/scripts/groovebox-artists.js"></script>
+
+        <script>
+// Include the UserVoice JavaScript SDK (only needed once on a page)
+UserVoice=window.UserVoice||[];(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/m2Ik2ZoNdevNx0bBiyRCsw.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})();
+
+//
+// UserVoice Javascript SDK developer documentation:
+// https://www.uservoice.com/o/javascript-sdk
+//
+
+// Identify the user and pass traits
+// To enable, replace sample data with actual user traits and uncomment the line
+UserVoice.push(['identify', {
+}]);
+
+// Set global widget options
+UserVoice.push(['set', {
+  accent_color: '#448dd6'
+}]);
+
+// Add default trigger to the bottom-right corner of the window:
+UserVoice.push(['addTrigger', {
+  mode: 'contact',
+  trigger_color: 'white',
+  trigger_background_color: '#3C3F4E',
+  trigger_position: 'bottom-right'
+}]);
+
+        </script>
 
         <script>
             (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=

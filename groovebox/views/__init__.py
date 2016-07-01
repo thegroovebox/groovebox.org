@@ -25,5 +25,5 @@ class Base(MethodView):
 
 
 class Partial(MethodView):
-    def get(self, partial):
-        return render_template('partials/%s.html' % partial)
+    def get(self, uri=""):
+        return render_template('partials/%s.html' % uri)

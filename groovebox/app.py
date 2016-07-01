@@ -15,6 +15,7 @@ import views
 from configs import options
 
 urls = ('/favicon.ico', views.Favicon,
+        '/partials/<path:uri>', views.Partial,
         '/<path:uri>', views.Base,
         '/', views.Base
         )

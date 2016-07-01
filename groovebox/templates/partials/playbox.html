@@ -12,11 +12,17 @@
             </div>
             <div class="audio-controls">
               <audio controls id="audio-player" onended="nextSong()">
-                <source src="" />
-                <!--<source src="https:/shakedownst2010-12-22d1t06.ogg" type="audio/ogg" />-->
-                
+                <source src="" />                
                 <em>Sorry, your browser doesn't support HTML5 audio.</em>
               </audio>
+
+
+              <script type="text/javascript">
+                var audioTag = document.createElement('audio');
+                if (!(!!(audioTag.canPlayType) && ("no" != audioTag.canPlayType("audio/mpeg")) && ("" != audioTag.canPlayType("audio/mpeg")))) {
+                  AudioPlayer.embed("audio-player", {soundFile: ""});
+                }
+              </script>
             </div>
           </div>
           <div id="history">
@@ -38,4 +44,8 @@
             <ul class="queue">
             </ul>
           </div>
+
+          <footer style="position: fixed; bottom: 0px; height: 20px; margin-left: 100px; font-size: 10px; padding: 5px;">
+            <a title="Groovebox links to music hosted on the Internet Archive and does not have any of its own music. For DMCA takedown requests, please contact info@archive.org">DMCA Policy</a>
+          </footer>
         </div>

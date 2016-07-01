@@ -12,3 +12,58 @@
   <div id="searchbox-results">
   </div>
 </div>
+
+<script type="text/babel">
+
+  var Recording = React.createClass({
+    render: function() {
+      return (
+        <span className="recording">
+        </span>
+      );
+    }
+  });
+
+  var Song = React.createClass({
+    render: function() {
+      return (
+        <span className="song">
+        </span>
+      );
+    }
+  });
+
+  var Artist = React.createClass({
+    render: function() {
+      return (
+        <span className="artist">
+        </span>
+      );
+    }
+  });
+
+  var Album = React.createClass({
+    render: function() {
+      return (
+        <span className="album">
+        </span>
+      );
+    }
+  });
+
+
+
+
+
+  var RecordingResults = React.createClass({
+    render: function() {
+      return (
+        <div className="recording">
+        </div>
+      );
+    }
+  });
+  React.render(
+        <RecordingsResults/>,
+        document.getElementById('searchbox-results')
+</script>

@@ -4,12 +4,32 @@ var Artist, Genre, Album, Concert, Song, Track, search;
 (function() {
   var apiurl = "https://api.groovebox.org";
 
+  var requests = {
+    get: function(url, callback, options) {
+      $.get(url, options || {}, function(results) {
+      }).done(function(data) {
+        if (callback) { callback(data); }
+      });
+    },
+
+    post: function(url, data, callback) {
+      $.post(url, data, function(results) {
+      }).done(function(data) {
+        if (callback) { callback(data); }
+      });
+    },
+
+    put: function(url, data, callback) {
+      $.put(url, data, function(results) {
+      }).done(function(data) {
+        if (callback) { callback(data); }
+      });
+    }
+  };
+
   search = function(query, callback) {
     var url = apiurl + '/search?q=' + query;
-    $.get(url, function(results) {
-    }).done(function(data) {
-      if (callback) { callback(data); }
-    });
+    requests.get(url, callback);
   }
 
   Artist = function(id) {
@@ -17,34 +37,28 @@ var Artist, Genre, Album, Concert, Song, Track, search;
   };
   Artist.all = function(callback, options) {
     var url = apiurl + '/artists';
-    $.get(url, options || {}, function(results) {
-    }).done(function(data) {
-      if (callback) { callback(data); }
-    });    
+    requests.get(url, callback);
   };
+
   Artist.prototype = {
     get: function(callback) {
       var url = apiurl + '/artists/' + this.id;
-      $.get(url, function(results) {
-      }).done(function(data) {
-	if (callback) { callback(data); }
-      });
+      requests.get(url, callback);
     },
 
     albums: function(callback) {
       var url = apiurl + '/artists/' + this.id + '/albums';
-      $.get(url, function(results) {
-      }).done(function(data) {
-	if (callback) { callback(data); }
-      });
+      requests.get(url, callback);
+    },
+
+    concerts: function(callback) {
+      var url = apiurl + '/artists/' + this.id + '/concerts';
+      requests.get(url, callback);
     },
 
     songs: function(callback) {
       var url = apiurl + '/artists/' + this.id + '/songs';
-      $.get(url, function(results) {
-      }).done(function(data) {
-	if (callback) { callback(data); }
-      });
+      requests.get(url, callback);
     }
   };
 
@@ -55,10 +69,7 @@ var Artist, Genre, Album, Concert, Song, Track, search;
   Album.prototype = {
     get: function(callback) {
       var url = apiurl + '/albums/' + this.id;
-      $.get(url, function(results) {
-      }).done(function(data) {
-	if (callback) { callback(data); }
-      });
+      requests.get(url, callback);
     }
   };
 
@@ -68,10 +79,7 @@ var Artist, Genre, Album, Concert, Song, Track, search;
   Concert.prototype = {
     get: function(callback) {
       var url = apiurl + '/concerts/' + this.id;
-      $.get(url, function(results) {
-      }).done(function(data) {
-	if (callback) { callback(data); }
-      });
+      requests.get(url, callback);
     }
   };
 
@@ -91,10 +99,7 @@ var Artist, Genre, Album, Concert, Song, Track, search;
   Track.prototype = {
     get: function(callback) {
       var url = apiurl + '/tracks/' + this.id;
-      $.get(url, function(results) {
-      }).done(function(data) {
-	if (callback) { callback(data); }
-      });
+      requests.get(url, callback);
     }
   };
 
@@ -104,18 +109,12 @@ var Artist, Genre, Album, Concert, Song, Track, search;
   Genre.prototype = {
     get: function(callback) {
       var url = apiurl + '/genre/' + this.id;
-      $.get(url, function(results) {
-      }).done(function(data) {
-	if (callback) { callback(data); }
-      });
+      requests.get(url, callback);
     },
 
     songs: function(callback) {
       var url = apiurl + '/genre/' + this.id + '/songs';
-      $.get(url, function(results) {
-      }).done(function(data) {
-	if (callback) { callback(data); }
-      });
+      requests.get(url, callback);
     }
   };
 
@@ -125,18 +124,12 @@ var Artist, Genre, Album, Concert, Song, Track, search;
   Song.prototype = {
     get: function(callback) {
       var url = apiurl + '/songs/' + this.id;
-      $.get(url, function(results) {
-      }).done(function(data) {
-	if (callback) { callback(data); }
-      });
+      requests.get(url, callback);
     },
 
     tracks: function(callback) {
       var url = apiurl + '/songs/' + this.id + '/tracks';
-      $.get(url, function(results) {
-      }).done(function(data) {
-	if (callback) { callback(data); }
-      });
+      requests.get(url, callback);
     }
   };
 }());
