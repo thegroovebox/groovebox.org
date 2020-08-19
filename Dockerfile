@@ -5,7 +5,7 @@ RUN apt-get update && apt-get install -y \
     git \
     python3-pip
 RUN curl -sL https://deb.nodesource.com/setup_4.x | bash -
-RUN apt-get install -y nodejs
+RUN apt-get install -y nodejs npm
 WORKDIR /root/
 RUN git clone https://github.com/thegroovebox/groovebox.org.git
 WORKDIR /root/groovebox.org/
